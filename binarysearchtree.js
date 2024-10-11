@@ -11,8 +11,6 @@ class Tree {
     this.root = null;
   }
 
-  
-
   dupliArr(arr) {
     return [...new Set(arr)];
   }
@@ -124,7 +122,6 @@ class Tree {
       const currentNode = queue.shift(); 
       callback(currentNode); 
 
-     
       if (currentNode.left) {
         queue.push(currentNode.left);
       }
@@ -179,7 +176,6 @@ class Tree {
     traverse(this.root);
   }
 
-
   height(node) {
     if (node === null) {
       return -1;
@@ -210,7 +206,7 @@ class Tree {
 
     throw new Error("Node not found in the tree");
   }
-  
+
   checkBalanced(node) {
     if (node === null) {
       return { height: -1, isBalanced: true };
@@ -230,6 +226,11 @@ class Tree {
     this.buildTreeRoot(nodesArray); 
   }
 
+  inorderTraversal() {
+    const nodes = [];
+    this.inOrder(node => nodes.push(node.data)); 
+    return nodes;
+  }
 
   prettyPrint(node = this.root, prefix = "", isLeft = true) {
     if (node === null) {
@@ -243,6 +244,6 @@ class Tree {
       this.prettyPrint(node.left, `${prefix}${isLeft ? "    " : "│   "}`, true);
     }
   }
-  
 }
 
+export default Tree;
