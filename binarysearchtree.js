@@ -11,6 +11,8 @@ class Tree {
     this.root = null;
   }
 
+  
+
   dupliArr(arr) {
     return [...new Set(arr)];
   }
@@ -186,4 +188,61 @@ class Tree {
     const rightHeight = this.height(node.right);
     return 1 + Math.max(leftHeight, rightHeight);
   }
+
+  depth(node) {
+    if (node === null) {
+      throw new Error("Node cannot be null");
+    }
+
+    let current = this.root;
+    let depthCount = 0;
+    while (current !== null) {
+      if (node.data === current.data) {
+        return depthCount;
+      }
+      if (node.data < current.data) {
+        current = current.left;
+      } else {
+        current = current.right;
+      }
+      depthCount++; 
+    }
+
+    throw new Error("Node not found in the tree");
+  }
+  
+  checkBalanced(node) {
+    if (node === null) {
+      return { height: -1, isBalanced: true };
+    }
+
+    const left = this.checkBalanced(node.left);
+    const right = this.checkBalanced(node.right);
+
+    const height = Math.max(left.height, right.height) + 1;
+    const isBalanced = left.isBalanced && right.isBalanced && Math.abs(left.height - right.height) <= 1;
+
+    return { height, isBalanced };
+  }
+
+  rebalance() {
+    const nodesArray = this.inorderTraversal();
+    this.buildTreeRoot(nodesArray); 
+  }
+
+
+  prettyPrint(node = this.root, prefix = "", isLeft = true) {
+    if (node === null) {
+      return;
+    }
+    if (node.right !== null) {
+      this.prettyPrint(node.right, `${prefix}${isLeft ? "│   " : "    "}`, false);
+    }
+    console.log(`${prefix}${isLeft ? "└── " : "┌── "}${node.data}`);
+    if (node.left !== null) {
+      this.prettyPrint(node.left, `${prefix}${isLeft ? "    " : "│   "}`, true);
+    }
+  }
+  
 }
+
